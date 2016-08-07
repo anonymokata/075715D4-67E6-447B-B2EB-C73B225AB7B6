@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <check.h>
 
@@ -12,7 +11,7 @@ void run_suite(Suite *suite, int *failures)
 
     srunner_run_all(srunner, CK_NORMAL);
 
-    failures += srunner_ntests_failed(srunner);
+    *failures += srunner_ntests_failed(srunner);
     srunner_free(srunner);
 }
 

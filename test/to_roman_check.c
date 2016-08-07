@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <check.h>
 #include "to_roman_check.h"
 

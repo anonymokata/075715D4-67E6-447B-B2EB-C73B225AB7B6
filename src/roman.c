@@ -42,3 +42,23 @@ void to_roman(int const arabic, char *roman)
         strcat(roman, next_highest_digit(&remaining));
     }
 }
+
+int convert_digit(char const *digit)
+{
+    int i;
+    for (i = 0; numerals[i].arabic != 0; i++) {
+        if (strcmp(digit, numerals[i].roman) == 0) {
+            return numerals[i].arabic;
+        }
+    }
+    return -1;
+}
+
+int to_arabic(char const *roman)
+{
+    if (strlen(roman) == 1) {
+        return convert_digit(roman);    
+    } 
+
+    return -1;
+}

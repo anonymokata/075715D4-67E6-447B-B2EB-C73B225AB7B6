@@ -7,6 +7,7 @@ typedef struct {
 } Numeral; 
 
 Numeral numerals[] = {
+    { 9, "IX" },
     { 5, "V" },
     { 4, "IV" },
     { 1, "I" },

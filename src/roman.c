@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 #include "roman.h"
 
 typedef struct {
@@ -54,11 +55,43 @@ int convert_digit(char const *digit)
     return -1;
 }
 
+int peek_left_is_lesser(int index, char const *roman)
+{
+    char left[2];
+    memset(left, 0, sizeof(left));
+    memcpy(left, roman + index - 1, 1);
+    
+    char right[2];
+    memset(right, 0, sizeof(right));
+    memcpy(right, roman + index, 1);
+
+    return convert_digit(left) < convert_digit(right);
+}
+
 int to_arabic(char const *roman)
 {
-    if (strlen(roman) == 1) {
-        return convert_digit(roman);    
-    } 
+    int accumulator = 0;
+    int index;
+    char buffer[3];
 
-    return -1;
+    index = (int) strlen(roman) - 1;
+
+    while (index > -1) {
+        memset(buffer, 0, sizeof(buffer));
+        if (index == 0) {
+            memcpy(buffer, roman, 1);
+            accumulator += convert_digit(buffer);    
+            return accumulator;
+        } 
+        if (peek_left_is_lesser(index, roman)) {
+            memcpy(buffer, roman + index - 1, 2);
+            index -= 2;
+        } else {
+            memcpy(buffer, roman + index, 1);
+            index -= 1;
+        }
+        accumulator += convert_digit(buffer);
+    }
+
+    return accumulator;
 }

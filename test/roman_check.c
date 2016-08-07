@@ -52,6 +52,86 @@ START_TEST (convert_9_to_IX)
 }
 END_TEST
 
+START_TEST (convert_10_to_X)
+{
+    char result[2] = {0};
+    arabic_to_roman(10, result);
+    ck_assert_str_eq("X", result);
+}
+END_TEST
+
+START_TEST (convert_40_to_XL)
+{
+    char result[3] = {0};
+    arabic_to_roman(40, result);
+    ck_assert_str_eq("XL", result);
+}
+END_TEST
+
+START_TEST (convert_50_to_L)
+{
+    char result[2] = {0};
+    arabic_to_roman(50, result);
+    ck_assert_str_eq("L", result);
+}
+END_TEST
+
+START_TEST (convert_90_to_XC)
+{
+    char result[3] = {0};
+    arabic_to_roman(90, result);
+    ck_assert_str_eq("XC", result);
+}
+END_TEST
+
+START_TEST (convert_100_to_C)
+{
+    char result[2] = {0};
+    arabic_to_roman(100, result);
+    ck_assert_str_eq("C", result);
+}
+END_TEST
+
+START_TEST (convert_400_to_CD)
+{
+    char result[3] = {0};
+    arabic_to_roman(400, result);
+    ck_assert_str_eq("CD", result);
+}
+END_TEST
+
+START_TEST (convert_500_to_D)
+{
+    char result[2] = {0};
+    arabic_to_roman(500, result);
+    ck_assert_str_eq("D", result);
+}
+END_TEST
+
+START_TEST (convert_900_to_CM)
+{
+    char result[3] = {0};
+    arabic_to_roman(900, result);
+    ck_assert_str_eq("CM", result);
+}
+END_TEST
+
+START_TEST (convert_1000_to_M)
+{
+    char result[2] = {0};
+    arabic_to_roman(1000, result);
+    ck_assert_str_eq("M", result);
+}
+END_TEST
+
+START_TEST (convert_3999_to_MMMCMXCIX)
+{
+    char result[10] = {0};
+    arabic_to_roman(3999, result);
+    ck_assert_str_eq("MMMCMXCIX", result);
+}
+END_TEST
+
 Suite * roman_suite_create(void)
 {
     Suite *suite;
@@ -66,6 +146,16 @@ Suite * roman_suite_create(void)
     tcase_add_test(tcase, convert_5_to_V);
     tcase_add_test(tcase, convert_6_to_VI);
     tcase_add_test(tcase, convert_9_to_IX);
+    tcase_add_test(tcase, convert_10_to_X);
+    tcase_add_test(tcase, convert_40_to_XL);
+    tcase_add_test(tcase, convert_50_to_L);
+    tcase_add_test(tcase, convert_90_to_XC);
+    tcase_add_test(tcase, convert_100_to_C);
+    tcase_add_test(tcase, convert_400_to_CD);
+    tcase_add_test(tcase, convert_500_to_D);
+    tcase_add_test(tcase, convert_900_to_CM);
+    tcase_add_test(tcase, convert_1000_to_M);
+    tcase_add_test(tcase, convert_3999_to_MMMCMXCIX);
 
     suite_add_tcase(suite, tcase);
     return suite;

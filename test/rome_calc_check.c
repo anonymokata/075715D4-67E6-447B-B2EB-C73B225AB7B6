@@ -35,6 +35,38 @@ START_TEST (add_X_to_MMMCMLXXXIX)
 }
 END_TEST
 
+START_TEST (subtract_I_from_II)
+{
+    char result[2] = {0};
+    rome_subtract("II", "I", result);
+    ck_assert_str_eq("I", result);
+}
+END_TEST
+
+START_TEST (subtract_II_from_III)
+{
+    char result[2] = {0};
+    rome_subtract("III", "II", result);
+    ck_assert_str_eq("I", result);
+}
+END_TEST
+
+START_TEST (subtract_IV_from_VI)
+{
+    char result[3] = {0};
+    rome_subtract("VI", "IV", result);
+    ck_assert_str_eq("II", result);
+}
+END_TEST
+
+START_TEST (subtract_CXI_from_MMMCMXCIX)
+{
+    char result[16] = {0};
+    rome_subtract("MMMCMXCIX", "CXI", result);
+    ck_assert_str_eq("MMMDCCCLXXXVIII", result);
+}
+END_TEST
+
 Suite * rome_calc_suite_create(void)
 {
     Suite *suite;
@@ -50,14 +82,15 @@ Suite * rome_calc_suite_create(void)
 
     suite_add_tcase(suite, tcase_addition);
 
-    /*
     TCase *tcase_subtraction;
     tcase_subtraction = tcase_create("subtraction");
 
     tcase_add_test(tcase_subtraction, subtract_I_from_II);
+    tcase_add_test(tcase_subtraction, subtract_II_from_III);
+    tcase_add_test(tcase_subtraction, subtract_IV_from_VI);
+    tcase_add_test(tcase_subtraction, subtract_CXI_from_MMMCMXCIX);
 
     suite_add_tcase(suite, tcase_subtraction);
-    */
 
     return suite;
 }

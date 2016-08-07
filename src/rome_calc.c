@@ -7,3 +7,10 @@ void rome_add(char const *a, char const *b, char *result)
     int b_num = to_arabic(b);
     to_roman(a_num + b_num, result); 
 }
+
+void rome_subtract(char const *a, char const *b, char *result)
+{
+    int a_num = to_arabic(a);
+    int b_num = to_arabic(b);
+    to_roman(a_num - b_num, result);
+}

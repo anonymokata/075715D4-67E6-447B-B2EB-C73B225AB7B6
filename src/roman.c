@@ -1,5 +1,4 @@
 #include <string.h>
-#include <stdio.h>
 #include "roman.h"
 
 typedef struct {
@@ -7,7 +6,7 @@ typedef struct {
     char * roman;
 } Numeral; 
 
-Numeral numerals[] = {
+static Numeral numerals[] = {
     { 1000, "M" },
     { 900, "CM" },
     { 500, "D" },
@@ -24,38 +23,36 @@ Numeral numerals[] = {
     { 0, "?" }
 };
 
-char * next_highest_digit(int *number)
+static char * next_highest_digit(int *pool)
 {
-    int i;
-    for (i = 0; numerals[i].arabic != 0; i++) {
-        if (*number >= numerals[i].arabic) {
-            *number -= numerals[i].arabic;
+    for (int i = 0; numerals[i].arabic != 0; i++) {
+        if (*pool >= numerals[i].arabic) {
+            *pool -= numerals[i].arabic;
             return numerals[i].roman;
         }
     }
     return "?";
 }
 
-void to_roman(int const arabic, char *roman)
+void to_roman(int arabic, char *roman)
 {
-    int remaining = arabic;
-    while (remaining > 0) {
-        strcat(roman, next_highest_digit(&remaining));
+    int pool = arabic;
+    while (pool > 0) {
+        strcat(roman, next_highest_digit(&pool));
     }
 }
 
-int convert_digit(char const *digit)
+static int convert_digit(char const *digit)
 {
-    int i;
-    for (i = 0; numerals[i].arabic != 0; i++) {
+    for (int i = 0; numerals[i].arabic != 0; i++) {
         if (strcmp(digit, numerals[i].roman) == 0) {
             return numerals[i].arabic;
         }
     }
-    return -1;
+    return 0;
 }
 
-int peek_left_is_lesser(int index, char const *roman)
+static int peek_left_is_lesser(int index, char const *roman)
 {
     char left[2];
     memset(left, 0, sizeof(left));
@@ -74,8 +71,8 @@ int to_arabic(char const *roman)
     int index;
     char buffer[3];
 
+    // work from right to left
     index = (int) strlen(roman) - 1;
-
     while (index > -1) {
         memset(buffer, 0, sizeof(buffer));
         if (index == 0) {

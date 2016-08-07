@@ -13,7 +13,7 @@ check: $(BINDIR)/tests
 OBJS := $(addprefix $(OBJDIR)/,\
 	\
 	roman.o \
-	roman_check.o)
+	to_roman_check.o)
 
 $(BINDIR)/tests: $(TESTDIR)/tests.c $(OBJS) | $(BINDIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ \

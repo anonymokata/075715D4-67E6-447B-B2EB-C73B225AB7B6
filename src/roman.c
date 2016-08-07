@@ -35,7 +35,7 @@ char * next_highest_digit(int *number)
     return "?";
 }
 
-void arabic_to_roman(int const arabic, char *roman)
+void to_roman(int const arabic, char *roman)
 {
     int remaining = arabic;
     while (remaining > 0) {

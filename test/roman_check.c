@@ -36,6 +36,22 @@ START_TEST (convert_5_to_V)
 }
 END_TEST
 
+START_TEST (convert_6_to_VI)
+{
+    char result[3] = {0};
+    arabic_to_roman(6, result);
+    ck_assert_str_eq("VI", result);
+}
+END_TEST
+
+START_TEST (convert_9_to_IX)
+{
+    char result[3] = {0};
+    arabic_to_roman(9, result);
+    ck_assert_str_eq("IX", result);
+}
+END_TEST
+
 Suite * roman_suite_create(void)
 {
     Suite *suite;
@@ -48,6 +64,8 @@ Suite * roman_suite_create(void)
     tcase_add_test(tcase, convert_3_to_III);
     tcase_add_test(tcase, convert_4_to_IV);
     tcase_add_test(tcase, convert_5_to_V);
+    tcase_add_test(tcase, convert_6_to_VI);
+    tcase_add_test(tcase, convert_9_to_IX);
 
     suite_add_tcase(suite, tcase);
     return suite;

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if ! lsb_release -d | grep 'Ubuntu 14.04'
+then
+    >&2 echo "ERROR: You must be running Ubuntu 14.04!"
+    exit 1
+fi
+
+sudo apt-get update
+sudo apt-get install -y \
+    build-essential \
+    pkg-config \
+    check

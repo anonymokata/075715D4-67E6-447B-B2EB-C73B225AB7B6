@@ -1,3 +1,7 @@
-`sudo apt-get install check`
+On Ubuntu 14.04:
 
-`make check`
+```bash
+./configure
+make
+make check
+```

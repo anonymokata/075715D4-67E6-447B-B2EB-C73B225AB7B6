@@ -1,13 +1,29 @@
 #!/bin/bash
 
+function install_dependencies() {
+    $1 apt-get update
+    $1 apt-get install -y \
+        build-essential \
+        pkg-config \
+        check
+}
+
 if ! lsb_release -d | grep 'Ubuntu 14.04'
 then
     >&2 echo "ERROR: You must be running Ubuntu 14.04!"
     exit 1
 fi
 
-sudo apt-get update
-sudo apt-get install -y \
-    build-essential \
-    pkg-config \
-    check
+if [[ $EUID != 0 ]]; then
+    echo "This script will use 'sudo' to install dependencies with apt-get:"
+    echo '    build-essential'
+    echo '    pkg-config'
+    echo '    check'
+    read -p "Continue? [y/N]: " choice
+    case "$choice" in
+        y|Y ) install_dependencies sudo;;
+        * ) exit 0;;
+    esac
+else
+     install_dependencies
+fi

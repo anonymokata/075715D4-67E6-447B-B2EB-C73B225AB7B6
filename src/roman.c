@@ -23,23 +23,24 @@ static Numeral numerals[] = {
     { 0, "?" }
 };
 
-static char * next_highest_digit(int *pool)
+static Numeral * next_highest_digit(int pool)
 {
     int i;
     for (i = 0; numerals[i].arabic != 0; i++) {
-        if (*pool >= numerals[i].arabic) {
-            *pool -= numerals[i].arabic;
-            return numerals[i].roman;
+        if (pool >= numerals[i].arabic) {
+            break;
         }
     }
-    return "?";
+    return numerals + i;
 }
 
 void to_roman(int arabic, char *roman)
 {
     int pool = arabic;
     while (pool > 0) {
-        strcat(roman, next_highest_digit(&pool));
+        Numeral *next = next_highest_digit(pool);
+        pool -= next->arabic;
+        strcat(roman, next->roman);
     }
 }
 
@@ -74,13 +75,14 @@ int to_arabic(char const *roman)
     char buffer[3];
 
     // work from right to left
+
     index = (int) strlen(roman) - 1;
     while (index > -1) {
         memset(buffer, 0, sizeof(buffer));
         if (index == 0) {
             memcpy(buffer, roman, 1);
             accumulator += convert_digit(buffer);    
-            return accumulator;
+            break;
         } 
         if (peek_left_is_lesser(index, roman)) {
             memcpy(buffer, roman + index - 1, 2);

@@ -23,24 +23,23 @@ static Numeral numerals[] = {
     { 0, "?" }
 };
 
-static Numeral * next_highest_digit(int pool)
-{
+void repeat_append(char *dest, char const *src, int n) {
     int i;
-    for (i = 0; numerals[i].arabic != 0; i++) {
-        if (pool >= numerals[i].arabic) {
-            break;
-        }
+    for (i = 0; i < n; i++) {
+        strcat(dest, src);
     }
-    return numerals + i;
 }
 
 void to_roman(int arabic, char *roman)
 {
-    int pool = arabic;
-    while (pool > 0) {
-        Numeral *next = next_highest_digit(pool);
-        pool -= next->arabic;
-        strcat(roman, next->roman);
+    int remaining = arabic;
+   
+    Numeral *next;
+    for (next = numerals; next->arabic != 0; next++) {
+        int repetitions = remaining / next->arabic;
+        remaining %= next->arabic; 
+
+        repeat_append(roman, next->roman, repetitions);
     }
 }
 

@@ -1,12 +1,13 @@
 #include <check.h>
-#include <stdio.h>
 #include "roman_err_check.h"
 
 #include "../src/roman.h"
 
-START_TEST (nothing_yet)
+START_TEST (to_roman_null_buffer_err)
 {
-    printf("todo: error handling tests\n");
+    RomanError *err;
+    to_roman(5, NULL, &err); 
+    ck_assert_int_eq(ROMAN_E_NULL_BUFFER, err->code);
 }
 END_TEST
 
@@ -18,7 +19,7 @@ Suite * roman_err_suite_create(void)
     TCase *tcase;
     tcase = tcase_create("core");
 
-    tcase_add_test(tcase, nothing_yet);
+    tcase_add_test(tcase, to_roman_null_buffer_err);
 
     suite_add_tcase(suite, tcase);
     return suite;

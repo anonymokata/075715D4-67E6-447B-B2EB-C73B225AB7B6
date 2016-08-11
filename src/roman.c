@@ -3,7 +3,7 @@
 
 typedef struct {
     int arabic;
-    char * roman;
+    char *roman;
 } Numeral; 
 
 static Numeral numerals[] = {
@@ -23,7 +23,7 @@ static Numeral numerals[] = {
     { 0, "?" }
 };
 
-void repeat_append(char *dest, char const *src, int n) {
+static void repeat_append(char *dest, char const *src, int n) {
     int i;
     for (i = 0; i < n; i++) {
         strcat(dest, src);
@@ -43,54 +43,36 @@ void to_roman(int arabic, char *roman)
     }
 }
 
-static int convert_digit(char const *digit)
+static int get_digit(char const *in, int one_or_two_chars)
 {
-    int i;
-    for (i = 0; numerals[i].arabic != 0; i++) {
-        if (strcmp(digit, numerals[i].roman) == 0) {
-            return numerals[i].arabic;
+    char buffer[3];
+    memset(buffer, 0, sizeof(buffer));
+    memcpy(buffer, in, one_or_two_chars);
+
+    Numeral *next;
+    for (next = numerals; next->arabic != 0; next++) {
+        if (strcmp(buffer, next->roman) == 0) {
+            break;
         }
     }
-    return 0;
-}
-
-static int peek_left_is_lesser(int index, char const *roman)
-{
-    char left[2];
-    memset(left, 0, sizeof(left));
-    memcpy(left, roman + index - 1, 1);
-    
-    char right[2];
-    memset(right, 0, sizeof(right));
-    memcpy(right, roman + index, 1);
-
-    return convert_digit(left) < convert_digit(right);
+    return next->arabic;
 }
 
 int to_arabic(char const *roman)
 {
-    int accumulator = 0;
-    int index;
-    char buffer[3];
+    int length = strlen(roman),
+        accumulator = 0,
+        i;
 
-    // work from right to left
-
-    index = (int) strlen(roman) - 1;
-    while (index > -1) {
-        memset(buffer, 0, sizeof(buffer));
-        if (index == 0) {
-            memcpy(buffer, roman, 1);
-            accumulator += convert_digit(buffer);    
-            break;
-        } 
-        if (peek_left_is_lesser(index, roman)) {
-            memcpy(buffer, roman + index - 1, 2);
-            index -= 2;
+    for (i = 0; i < length; i++) {
+        char const *position = roman + i;
+        int result = get_digit(position, 2);
+        if (result > 0) {
+            i++;
         } else {
-            memcpy(buffer, roman + index, 1);
-            index -= 1;
+            result = get_digit(position, 1);
         }
-        accumulator += convert_digit(buffer);
+        accumulator += result;
     }
 
     return accumulator;

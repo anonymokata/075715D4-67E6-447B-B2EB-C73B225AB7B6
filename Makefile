@@ -13,9 +13,11 @@ check: $(BINDIR)/tests
 OBJS := $(addprefix $(OBJDIR)/,\
 	\
 	roman.o \
+	roman_err.o \
 	rome_calc.o \
 	to_roman_check.o \
 	to_arabic_check.o \
+	roman_err_check.o \
 	rome_calc_check.o )
 
 $(BINDIR)/tests: $(TESTDIR)/tests.c $(OBJS) | $(BINDIR)

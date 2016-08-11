@@ -6,9 +6,10 @@ typedef struct {
 } RomanError;
 
 enum {
-    ROMAN_E_NULL_BUFFER 
+    ROMAN_E_NULL_BUFFER,
+    ROMAN_E_UNKNOWN
 };
 
-extern RomanError roman_errors[];
+extern RomanError *roman_error(int code);
 
 #endif /* ROMAN_ERR_H */

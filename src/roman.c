@@ -1,5 +1,6 @@
 #include <string.h>
 #include "roman.h"
+#include "roman_err.h"
 
 typedef struct {
     int arabic;
@@ -30,7 +31,7 @@ static void repeat_append(char *dest, char const *src, int n) {
     }
 }
 
-void to_roman(int arabic, char *roman)
+void to_roman(int arabic, char *roman, RomanError **err)
 {
     int remaining = arabic;
    
@@ -58,7 +59,7 @@ static int get_digit(char const *in, int one_or_two_chars)
     return next->arabic;
 }
 
-int to_arabic(char const *roman)
+int to_arabic(char const *roman, RomanError **err)
 {
     int length = strlen(roman),
         accumulator = 0,

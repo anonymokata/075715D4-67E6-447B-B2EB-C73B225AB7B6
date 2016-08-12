@@ -84,6 +84,11 @@ static int get_digit(char const *in, int one_or_two_chars)
 
 int to_arabic(char const *roman, RomanError *err)
 {
+    if (roman == NULL) {
+        roman_error(&err, ROMAN_E_INPUT_NULL);
+        return 0;
+    }
+
     int length = strlen(roman),
         accumulator = 0,
         i;
@@ -99,5 +104,6 @@ int to_arabic(char const *roman, RomanError *err)
         accumulator += result;
     }
 
+    roman_error(&err, ROMAN_E_SUCCESS);
     return accumulator;
 }

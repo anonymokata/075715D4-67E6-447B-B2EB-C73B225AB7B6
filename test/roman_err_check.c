@@ -20,6 +20,15 @@ START_TEST (to_roman_null_buffer_err)
 }
 END_TEST
 
+START_TEST (to_roman_empty_str_buffer_err)
+{
+    char *buffer = "stuff";
+    RomanError err;
+    to_roman(5, buffer, &err);
+    ck_assert_int_eq(ROMAN_E_BUFFER_NOT_EMPTY, err.code);
+}
+END_TEST
+
 START_TEST (to_roman_lower_bound_err)
 {
     RomanError err;
@@ -36,12 +45,19 @@ START_TEST (to_roman_upper_bound_err)
 }
 END_TEST
 
-START_TEST (to_roman_empty_str_buffer_err)
+START_TEST (to_arabic_success_err)
 {
-    char *buffer = "stuff";
     RomanError err;
-    to_roman(5, buffer, &err);
-    ck_assert_int_eq(ROMAN_E_BUFFER_NOT_EMPTY, err.code);
+    to_arabic("X", &err);
+    ck_assert_int_eq(ROMAN_E_SUCCESS, err.code);
+}
+END_TEST
+
+START_TEST (to_arabic_input_null_err)
+{
+    RomanError err;
+    to_arabic(NULL, &err);
+    ck_assert_int_eq(ROMAN_E_INPUT_NULL, err.code);
 }
 END_TEST
 
@@ -58,6 +74,8 @@ Suite * roman_err_suite_create(void)
     tcase_add_test(tcase, to_roman_lower_bound_err);
     tcase_add_test(tcase, to_roman_upper_bound_err);
     tcase_add_test(tcase, to_roman_empty_str_buffer_err);
+    tcase_add_test(tcase, to_arabic_success_err);
+    tcase_add_test(tcase, to_arabic_input_null_err);
 
     suite_add_tcase(suite, tcase);
     return suite;

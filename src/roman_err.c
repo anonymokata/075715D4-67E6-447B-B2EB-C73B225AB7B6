@@ -1,17 +1,24 @@
+#include <stddef.h>
+#include <string.h>
 #include "roman_err.h"
 
-RomanError roman_errors[] = {
+static RomanError roman_errors[] = {
+    { ROMAN_E_SUCCESS },
     { ROMAN_E_NULL_BUFFER },
     { ROMAN_E_UNKNOWN }
 };
 
-RomanError *roman_error(int code)
+void roman_error(RomanError **out, int code)
 {
+    if (*out == NULL) {
+        return;
+    }
+
     RomanError *next;
     for (next = roman_errors; next->code != ROMAN_E_UNKNOWN; next++) {
         if (code == next->code) {
             break;
         }
     }
-    return next;
+    memcpy(*out, next, sizeof(RomanError));
 }

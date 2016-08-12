@@ -31,10 +31,10 @@ static void repeat_append(char *dest, char const *src, int n) {
     }
 }
 
-void to_roman(int arabic, char *roman, RomanError **err)
+void to_roman(int arabic, char *roman, RomanError *err)
 {
     if (roman == NULL) {
-        *err = roman_error(ROMAN_E_NULL_BUFFER);
+        roman_error(&err, ROMAN_E_NULL_BUFFER);
         return;
     }
 
@@ -47,6 +47,8 @@ void to_roman(int arabic, char *roman, RomanError **err)
 
         repeat_append(roman, next->roman, repetitions);
     }
+
+    roman_error(&err, ROMAN_E_SUCCESS);
 }
 
 static int get_digit(char const *in, int one_or_two_chars)
@@ -64,7 +66,7 @@ static int get_digit(char const *in, int one_or_two_chars)
     return next->arabic;
 }
 
-int to_arabic(char const *roman, RomanError **err)
+int to_arabic(char const *roman, RomanError *err)
 {
     int length = strlen(roman),
         accumulator = 0,

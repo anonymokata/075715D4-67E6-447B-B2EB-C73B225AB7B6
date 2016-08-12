@@ -125,6 +125,29 @@ START_TEST (rome_calc_to_roman_err)
 }
 END_TEST
 
+START_TEST (helpful_error_messages)
+{
+    RomeCalcError err;
+
+    rome_calc_error(&err, ROME_CALC_E_SUCCESS);
+    ck_assert_str_eq("success", err.message);
+    rome_calc_error(&err, ROME_CALC_E_NULL_BUFFER);
+    ck_assert_str_eq("output buffer is null", err.message);
+    rome_calc_error(&err, ROME_CALC_E_INPUT_NULL);
+    ck_assert_str_eq("a null pointer operand was passed in", err.message);
+    rome_calc_error(&err, ROME_CALC_E_BUFFER_NOT_EMPTY);
+    ck_assert_str_eq("output buffer not empty", err.message);
+    rome_calc_error(&err, ROME_CALC_E_EMPTY_STRING);
+    ck_assert_str_eq("an empty string operand was passed in", err.message);
+    rome_calc_error(&err, ROME_CALC_E_TO_ROMAN);
+    ck_assert_str_eq("conversion of arabic to roman failed", err.message);
+    rome_calc_error(&err, ROME_CALC_E_TO_ARABIC);
+    ck_assert_str_eq("conversion of roman to arabic failed", err.message);
+    rome_calc_error(&err, ROME_CALC_E_UNKNOWN);
+    ck_assert_str_eq("unknown", err.message);
+}
+END_TEST
+
 Suite * rome_calc_err_suite_create(void)
 {
     Suite *suite;
@@ -140,6 +163,7 @@ Suite * rome_calc_err_suite_create(void)
     tcase_add_test(tcase, rome_calc_empty_input_string);
     tcase_add_test(tcase, rome_calc_to_roman_err);
     tcase_add_test(tcase, rome_calc_to_arabic_err);
+    tcase_add_test(tcase, helpful_error_messages);
 
     suite_add_tcase(suite, tcase);
     return suite;

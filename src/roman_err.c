@@ -14,6 +14,7 @@ static RomanError roman_errors[] = {
     { ROMAN_E_INVALID_ORDER },
     { ROMAN_E_INVALID_REPEAT },
     { ROMAN_E_QUADS },
+    { ROMAN_E_EMPTY_STRING },
     { ROMAN_E_UNKNOWN }
 };
 

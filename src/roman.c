@@ -104,6 +104,11 @@ int to_arabic(char const *roman, RomanError *err)
         return 0;
     }
 
+    if (roman[0] == '\0') {
+        roman_error(&err, ROMAN_E_EMPTY_STRING);
+        return 0;
+    }
+
     int length = strlen(roman),
         accumulator = 0,
         repeat_digits = 1,

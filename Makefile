@@ -18,7 +18,8 @@ OBJS := $(addprefix $(OBJDIR)/,\
 	to_roman_check.o \
 	to_arabic_check.o \
 	roman_err_check.o \
-	rome_calc_check.o )
+	rome_calc_check.o \
+	rome_calc_err_check.o )
 
 $(BINDIR)/tests: $(TESTDIR)/tests.c $(OBJS) | $(BINDIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ \

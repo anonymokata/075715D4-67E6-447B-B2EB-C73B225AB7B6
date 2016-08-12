@@ -5,6 +5,7 @@
 #include "to_arabic_check.h"
 #include "roman_err_check.h"
 #include "rome_calc_check.h"
+#include "rome_calc_err_check.h"
 
 void run_suite(Suite *suite, int *failures)
 {
@@ -25,6 +26,7 @@ int main(void)
     run_suite(to_arabic_suite_create(), &failures);
     run_suite(roman_err_suite_create(), &failures);
     run_suite(rome_calc_suite_create(), &failures);
+    run_suite(rome_calc_err_suite_create(), &failures);
 
     return (failures == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

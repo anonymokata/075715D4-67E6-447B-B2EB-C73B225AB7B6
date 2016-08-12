@@ -1,4 +1,5 @@
 #include <check.h>
+#include <stddef.h>
 #include "rome_calc_check.h"
 
 #include "../src/rome_calc.h"
@@ -6,7 +7,7 @@
 START_TEST (add_I_to_I)
 {
     char result[3] = {0};
-    rome_add("I", "I", result);
+    rome_add("I", "I", result, NULL);
     ck_assert_str_eq("II", result);
 }
 END_TEST
@@ -14,7 +15,7 @@ END_TEST
 START_TEST (add_II_to_II)
 {
     char result[3] = {0};
-    rome_add("II", "II", result);
+    rome_add("II", "II", result, NULL);
     ck_assert_str_eq("IV", result);
 }
 END_TEST
@@ -22,7 +23,7 @@ END_TEST
 START_TEST (add_IV_to_VI)
 {
     char result[2] = {0};
-    rome_add("IV", "VI", result);
+    rome_add("IV", "VI", result, NULL);
     ck_assert_str_eq("X", result);
 }
 END_TEST
@@ -30,7 +31,7 @@ END_TEST
 START_TEST (add_X_to_MMMCMLXXXIX)
 {
     char result[10] = {0};
-    rome_add("X", "MMMCMLXXXIX", result);
+    rome_add("X", "MMMCMLXXXIX", result, NULL);
     ck_assert_str_eq("MMMCMXCIX", result);
 }
 END_TEST
@@ -38,7 +39,7 @@ END_TEST
 START_TEST (subtract_I_from_II)
 {
     char result[2] = {0};
-    rome_subtract("II", "I", result);
+    rome_subtract("II", "I", result, NULL);
     ck_assert_str_eq("I", result);
 }
 END_TEST
@@ -46,7 +47,7 @@ END_TEST
 START_TEST (subtract_II_from_III)
 {
     char result[2] = {0};
-    rome_subtract("III", "II", result);
+    rome_subtract("III", "II", result, NULL);
     ck_assert_str_eq("I", result);
 }
 END_TEST
@@ -54,7 +55,7 @@ END_TEST
 START_TEST (subtract_IV_from_VI)
 {
     char result[3] = {0};
-    rome_subtract("VI", "IV", result);
+    rome_subtract("VI", "IV", result, NULL);
     ck_assert_str_eq("II", result);
 }
 END_TEST
@@ -62,7 +63,7 @@ END_TEST
 START_TEST (subtract_CXI_from_MMMCMXCIX)
 {
     char result[16] = {0};
-    rome_subtract("MMMCMXCIX", "CXI", result);
+    rome_subtract("MMMCMXCIX", "CXI", result, NULL);
     ck_assert_str_eq("MMMDCCCLXXXVIII", result);
 }
 END_TEST

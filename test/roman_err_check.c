@@ -69,6 +69,14 @@ START_TEST (to_arabic_double_digit_repeat_err)
 }
 END_TEST
 
+START_TEST (to_arabic_invalid_numeral_err)
+{
+    RomanError err;
+    to_arabic("IM", &err);
+    ck_assert_int_eq(ROMAN_E_INVALID_NUMERAL, err.code);
+}
+END_TEST
+
 Suite * roman_err_suite_create(void)
 {
     Suite *suite;
@@ -84,6 +92,7 @@ Suite * roman_err_suite_create(void)
     tcase_add_test(tcase, to_roman_empty_str_buffer_err);
     tcase_add_test(tcase, to_arabic_success_err);
     tcase_add_test(tcase, to_arabic_input_null_err);
+    tcase_add_test(tcase, to_arabic_invalid_numeral_err);
     tcase_add_test(tcase, to_arabic_double_digit_repeat_err);
 
     suite_add_tcase(suite, tcase);

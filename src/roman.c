@@ -79,6 +79,11 @@ static int get_digit(char const *in, int one_or_two_chars)
             break;
         }
     }
+
+    if (one_or_two_chars == 1 && next->arabic == 0) {
+        return -1;
+    }
+
     return next->arabic;
 }
 
@@ -91,6 +96,7 @@ int to_arabic(char const *roman, RomanError *err)
 
     int length = strlen(roman),
         accumulator = 0,
+        prev_result = 0,
         prev_double_digit_result = 0,
         i;
 
@@ -107,7 +113,19 @@ int to_arabic(char const *roman, RomanError *err)
             prev_double_digit_result = result;
         } else {
             result = get_digit(position, 1);
+
+            if (result < 0) {
+                roman_error(&err, ROMAN_E_INVALID_NUMERAL);   
+                return 0;
+            } 
         }
+
+        if (prev_result != 0 && prev_result < result) {
+            roman_error(&err, ROMAN_E_INVALID_ORDER);
+            return 0;
+        }
+
+        prev_result = result;
         accumulator += result;
     }
 

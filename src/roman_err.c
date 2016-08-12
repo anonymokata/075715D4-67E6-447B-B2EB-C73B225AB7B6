@@ -11,6 +11,7 @@ static RomanError roman_errors[] = {
     { ROMAN_E_ARABIC_GT_3999 },
     { ROMAN_E_DOUBLE_REPEAT },
     { ROMAN_E_INVALID_NUMERAL },
+    { ROMAN_E_INVALID_ORDER },
     { ROMAN_E_UNKNOWN }
 };
 

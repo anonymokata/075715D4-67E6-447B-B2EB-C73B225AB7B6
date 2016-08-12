@@ -24,14 +24,15 @@ static Numeral numerals[] = {
     { 0, "?" }
 };
 
-static void repeat_append(char *dest, char const *src, int n) {
+static void repeat_append(char *dest, char const *src, int n)
+{
     int i;
     for (i = 0; i < n; i++) {
         strcat(dest, src);
     }
 }
 
-void to_roman(int arabic, char *roman, RomanError *err)
+void to_roman(int arabic, char *buffer, RomanError *err)
 {
     if (arabic <= 0) {
         roman_error(&err, ROMAN_E_ARABIC_LT_ONE);
@@ -43,8 +44,13 @@ void to_roman(int arabic, char *roman, RomanError *err)
         return;
     }
 
-    if (roman == NULL) {
+    if (buffer == NULL) {
         roman_error(&err, ROMAN_E_NULL_BUFFER);
+        return;
+    }
+
+    if (buffer[0] != '\0') {
+        roman_error(&err, ROMAN_E_BUFFER_NOT_EMPTY);
         return;
     }
 
@@ -55,7 +61,7 @@ void to_roman(int arabic, char *roman, RomanError *err)
         int repetitions = remaining / next->arabic;
         remaining %= next->arabic; 
 
-        repeat_append(roman, next->roman, repetitions);
+        repeat_append(buffer, next->roman, repetitions);
     }
 
     roman_error(&err, ROMAN_E_SUCCESS);

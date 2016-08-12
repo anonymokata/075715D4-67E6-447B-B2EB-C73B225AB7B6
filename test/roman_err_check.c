@@ -20,6 +20,24 @@ START_TEST (to_roman_null_buffer_err)
 }
 END_TEST
 
+START_TEST (to_roman_lower_bound_err)
+{
+    char result;
+    RomanError err;
+    to_roman(0, &result, &err);
+    ck_assert_int_eq(ROMAN_E_ARABIC_LT_ONE, err.code);
+}
+END_TEST
+
+START_TEST (to_roman_upper_bound_err)
+{
+    char result;
+    RomanError err;
+    to_roman(4000, &result, &err);
+    ck_assert_int_eq(ROMAN_E_ARABIC_GT_3999, err.code);
+}
+END_TEST
+
 Suite * roman_err_suite_create(void)
 {
     Suite *suite;
@@ -30,6 +48,8 @@ Suite * roman_err_suite_create(void)
 
     tcase_add_test(tcase, to_roman_null_buffer_err);
     tcase_add_test(tcase, to_roman_success_err);
+    tcase_add_test(tcase, to_roman_lower_bound_err);
+    tcase_add_test(tcase, to_roman_upper_bound_err);
 
     suite_add_tcase(suite, tcase);
     return suite;

@@ -8,6 +8,8 @@ typedef struct {
 enum {
     ROMAN_E_SUCCESS,
     ROMAN_E_NULL_BUFFER,
+    ROMAN_E_ARABIC_LT_ONE,
+    ROMAN_E_ARABIC_GT_3999,
     ROMAN_E_UNKNOWN
 };
 

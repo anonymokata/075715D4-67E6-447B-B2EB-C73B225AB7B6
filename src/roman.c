@@ -114,9 +114,9 @@ int to_arabic(char const *roman, RomanError *err)
         repeat_digits = 1,
         repeat_total = 0,
         prev_result = 0,
-        prev_double_digit_result = 0,
-        i;
+        prev_double_digit_result = 0;
 
+    int i;
     for (i = 0; i < length; i++) {
         char const *position = roman + i;
         int result = get_digit(position, 2);
@@ -134,8 +134,9 @@ int to_arabic(char const *roman, RomanError *err)
             if (result == prev_double_digit_result) {
                 roman_error(&err, ROMAN_E_DOUBLE_REPEAT);
                 return 0;
+            } else {
+                prev_double_digit_result = result;
             }
-            prev_double_digit_result = result;
         } else {
             result = get_digit(position, 1);
 

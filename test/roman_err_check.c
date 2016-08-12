@@ -85,6 +85,14 @@ START_TEST (to_arabic_invalid_numeral_err)
 }
 END_TEST
 
+START_TEST (to_arabic_invalid_repeat_err)
+{
+    RomanError err;
+    to_arabic("VV", &err);
+    ck_assert_int_eq(ROMAN_E_INVALID_REPEAT, err.code);
+}
+END_TEST
+
 Suite * roman_err_suite_create(void)
 {
     Suite *suite;
@@ -103,6 +111,7 @@ Suite * roman_err_suite_create(void)
     tcase_add_test(tcase, to_arabic_double_digit_repeat_err);
     tcase_add_test(tcase, to_arabic_invalid_order_err);
     tcase_add_test(tcase, to_arabic_invalid_numeral_err);
+    tcase_add_test(tcase, to_arabic_invalid_repeat_err);
 
     suite_add_tcase(suite, tcase);
     return suite;

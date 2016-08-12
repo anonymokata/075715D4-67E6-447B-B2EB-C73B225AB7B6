@@ -87,6 +87,16 @@ static int get_digit(char const *in, int one_or_two_chars)
     return next->arabic;
 }
 
+static char * get_highest_roman_digit(int n) {
+    Numeral *next;
+    for (next = numerals; next->arabic != 0; next++) {
+        if (n >= next->arabic) {
+            break;
+        }
+    }
+    return next->roman;
+}
+
 int to_arabic(char const *roman, RomanError *err)
 {
     if (roman == NULL) {
@@ -96,6 +106,8 @@ int to_arabic(char const *roman, RomanError *err)
 
     int length = strlen(roman),
         accumulator = 0,
+        repeat_digits = 1,
+        repeat_total = 0,
         prev_result = 0,
         prev_double_digit_result = 0,
         i;
@@ -105,6 +117,14 @@ int to_arabic(char const *roman, RomanError *err)
         int result = get_digit(position, 2);
         if (result > 0) {
             i++;
+
+            if (i == length && result == prev_result) {
+                repeat_total += result;
+                repeat_digits++;
+            } else {
+                repeat_total = 0;
+                repeat_digits = 1;
+            }
 
             if (result == prev_double_digit_result) {
                 roman_error(&err, ROMAN_E_DOUBLE_REPEAT);
@@ -118,11 +138,33 @@ int to_arabic(char const *roman, RomanError *err)
                 roman_error(&err, ROMAN_E_INVALID_NUMERAL);   
                 return 0;
             } 
+
+            if (result == prev_result) {
+                repeat_total += result;
+                repeat_digits++;
+            } else {
+                repeat_total = result;
+                repeat_digits = 1;
+            }
         }
 
         if (prev_result != 0 && prev_result < result) {
             roman_error(&err, ROMAN_E_INVALID_ORDER);
             return 0;
+        }
+
+        if (repeat_digits == 4) {
+            roman_error(&err, ROMAN_E_QUADS);
+            return 0;
+        }
+
+        if (repeat_digits >= 2) {
+            char *test = get_highest_roman_digit(repeat_total);
+            int same_symbol = strncmp(position, test, 1) == 0;
+            if (!same_symbol && strlen(test) < repeat_digits) {
+                roman_error(&err, ROMAN_E_INVALID_REPEAT);
+                return 0;
+            }
         }
 
         prev_result = result;

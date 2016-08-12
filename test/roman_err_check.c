@@ -85,6 +85,14 @@ START_TEST (to_arabic_invalid_numeral_err)
 }
 END_TEST
 
+START_TEST (to_arabic_quads_err)
+{
+    RomanError err;
+    to_arabic("CCCC", &err);
+    ck_assert_int_eq(ROMAN_E_QUADS, err.code);
+}
+END_TEST
+
 START_TEST (to_arabic_invalid_repeat_err)
 {
     RomanError err;
@@ -112,6 +120,7 @@ Suite * roman_err_suite_create(void)
     tcase_add_test(tcase, to_arabic_invalid_order_err);
     tcase_add_test(tcase, to_arabic_invalid_numeral_err);
     tcase_add_test(tcase, to_arabic_invalid_repeat_err);
+    tcase_add_test(tcase, to_arabic_quads_err);
 
     suite_add_tcase(suite, tcase);
     return suite;

@@ -33,6 +33,16 @@ static void repeat_append(char *dest, char const *src, int n) {
 
 void to_roman(int arabic, char *roman, RomanError *err)
 {
+    if (arabic <= 0) {
+        roman_error(&err, ROMAN_E_ARABIC_LT_ONE);
+        return;
+    }
+
+    if (arabic >= 4000) {
+        roman_error(&err, ROMAN_E_ARABIC_GT_3999);
+        return;
+    }
+
     if (roman == NULL) {
         roman_error(&err, ROMAN_E_NULL_BUFFER);
         return;

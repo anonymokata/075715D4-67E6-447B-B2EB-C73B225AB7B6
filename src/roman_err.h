@@ -22,6 +22,6 @@ enum {
     ROMAN_E_UNKNOWN
 };
 
-extern void roman_error(RomanError **out, int code);
+extern void roman_error(RomanError *out, int code);
 
 #endif /* ROMAN_ERR_H */

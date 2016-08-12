@@ -18,9 +18,9 @@ static RomanError roman_errors[] = {
     { ROMAN_E_UNKNOWN, "unknown" }
 };
 
-void roman_error(RomanError **out, int code)
+void roman_error(RomanError *out, int code)
 {
-    if (*out == NULL) {
+    if (out == NULL) {
         return;
     }
 
@@ -31,5 +31,5 @@ void roman_error(RomanError **out, int code)
         }
     }
 
-    memcpy(*out, next, sizeof(RomanError));
+    memcpy(out, next, sizeof(RomanError));
 }

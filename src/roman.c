@@ -35,22 +35,22 @@ static void repeat_append(char *dest, char const *src, int n)
 void to_roman(int arabic, char *buffer, RomanError *err)
 {
     if (arabic <= 0) {
-        roman_error(&err, ROMAN_E_ARABIC_LT_ONE);
+        roman_error(err, ROMAN_E_ARABIC_LT_ONE);
         return;
     }
 
     if (arabic >= 4000) {
-        roman_error(&err, ROMAN_E_ARABIC_GT_3999);
+        roman_error(err, ROMAN_E_ARABIC_GT_3999);
         return;
     }
 
     if (buffer == NULL) {
-        roman_error(&err, ROMAN_E_NULL_BUFFER);
+        roman_error(err, ROMAN_E_NULL_BUFFER);
         return;
     }
 
     if (buffer[0] != '\0') {
-        roman_error(&err, ROMAN_E_BUFFER_NOT_EMPTY);
+        roman_error(err, ROMAN_E_BUFFER_NOT_EMPTY);
         return;
     }
 
@@ -64,7 +64,7 @@ void to_roman(int arabic, char *buffer, RomanError *err)
         repeat_append(buffer, next->roman, repetitions);
     }
 
-    roman_error(&err, ROMAN_E_SUCCESS);
+    roman_error(err, ROMAN_E_SUCCESS);
 }
 
 static int get_digit(char const *in, int one_or_two_chars)
@@ -100,12 +100,12 @@ static char * get_highest_roman_digit(int n) {
 int to_arabic(char const *roman, RomanError *err)
 {
     if (roman == NULL) {
-        roman_error(&err, ROMAN_E_INPUT_NULL);
+        roman_error(err, ROMAN_E_INPUT_NULL);
         return 0;
     }
 
     if (roman[0] == '\0') {
-        roman_error(&err, ROMAN_E_EMPTY_STRING);
+        roman_error(err, ROMAN_E_EMPTY_STRING);
         return 0;
     }
 
@@ -132,7 +132,7 @@ int to_arabic(char const *roman, RomanError *err)
             }
 
             if (result == prev_double_digit_result) {
-                roman_error(&err, ROMAN_E_DOUBLE_REPEAT);
+                roman_error(err, ROMAN_E_DOUBLE_REPEAT);
                 return 0;
             } else {
                 prev_double_digit_result = result;
@@ -141,7 +141,7 @@ int to_arabic(char const *roman, RomanError *err)
             result = get_digit(position, 1);
 
             if (result < 0) {
-                roman_error(&err, ROMAN_E_INVALID_NUMERAL);   
+                roman_error(err, ROMAN_E_INVALID_NUMERAL);   
                 return 0;
             } 
 
@@ -155,12 +155,12 @@ int to_arabic(char const *roman, RomanError *err)
         }
 
         if (prev_result != 0 && prev_result < result) {
-            roman_error(&err, ROMAN_E_INVALID_ORDER);
+            roman_error(err, ROMAN_E_INVALID_ORDER);
             return 0;
         }
 
         if (repeat_digits == 4) {
-            roman_error(&err, ROMAN_E_QUADS);
+            roman_error(err, ROMAN_E_QUADS);
             return 0;
         }
 
@@ -168,7 +168,7 @@ int to_arabic(char const *roman, RomanError *err)
             char *test = get_highest_roman_digit(repeat_total);
             int same_symbol = strncmp(position, test, 1) == 0;
             if (!same_symbol && strlen(test) < repeat_digits) {
-                roman_error(&err, ROMAN_E_INVALID_REPEAT);
+                roman_error(err, ROMAN_E_INVALID_REPEAT);
                 return 0;
             }
         }
@@ -177,6 +177,6 @@ int to_arabic(char const *roman, RomanError *err)
         accumulator += result;
     }
 
-    roman_error(&err, ROMAN_E_SUCCESS);
+    roman_error(err, ROMAN_E_SUCCESS);
     return accumulator;
 }

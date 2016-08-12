@@ -112,33 +112,32 @@ END_TEST
 START_TEST (helpful_error_messages)
 {
     RomanError err;
-    RomanError *ep = &err;
 
-    roman_error(&ep, ROMAN_E_SUCCESS);
+    roman_error(&err, ROMAN_E_SUCCESS);
     ck_assert_str_eq("success", err.message);
-    roman_error(&ep, ROMAN_E_NULL_BUFFER);
+    roman_error(&err, ROMAN_E_NULL_BUFFER);
     ck_assert_str_eq("output buffer is null", err.message);
-    roman_error(&ep, ROMAN_E_INPUT_NULL);
+    roman_error(&err, ROMAN_E_INPUT_NULL);
     ck_assert_str_eq("roman string pointer is null", err.message);
-    roman_error(&ep, ROMAN_E_BUFFER_NOT_EMPTY);
+    roman_error(&err, ROMAN_E_BUFFER_NOT_EMPTY);
     ck_assert_str_eq("output buffer is not empty", err.message);
-    roman_error(&ep, ROMAN_E_ARABIC_LT_ONE);
+    roman_error(&err, ROMAN_E_ARABIC_LT_ONE);
     ck_assert_str_eq("arabic input must be greater than zero", err.message);
-    roman_error(&ep, ROMAN_E_ARABIC_GT_3999);
+    roman_error(&err, ROMAN_E_ARABIC_GT_3999);
     ck_assert_str_eq("arabic input must be less than 4000", err.message);
-    roman_error(&ep, ROMAN_E_DOUBLE_REPEAT);
+    roman_error(&err, ROMAN_E_DOUBLE_REPEAT);
     ck_assert_str_eq("two digit roman numbers cannot repeat", err.message);
-    roman_error(&ep, ROMAN_E_INVALID_NUMERAL);
+    roman_error(&err, ROMAN_E_INVALID_NUMERAL);
     ck_assert_str_eq("invalid numeral", err.message);
-    roman_error(&ep, ROMAN_E_INVALID_ORDER);
+    roman_error(&err, ROMAN_E_INVALID_ORDER);
     ck_assert_str_eq("invalid roman numeral ordering", err.message);
-    roman_error(&ep, ROMAN_E_INVALID_REPEAT);
+    roman_error(&err, ROMAN_E_INVALID_REPEAT);
     ck_assert_str_eq("invalid numeral repetitions", err.message);
-    roman_error(&ep, ROMAN_E_QUADS);
+    roman_error(&err, ROMAN_E_QUADS);
     ck_assert_str_eq("numeral repeated four times", err.message);
-    roman_error(&ep, ROMAN_E_EMPTY_STRING);
+    roman_error(&err, ROMAN_E_EMPTY_STRING);
     ck_assert_str_eq("input string was empty", err.message);
-    roman_error(&ep, ROMAN_E_UNKNOWN);
+    roman_error(&err, ROMAN_E_UNKNOWN);
     ck_assert_str_eq("unknown", err.message);
 }
 END_TEST

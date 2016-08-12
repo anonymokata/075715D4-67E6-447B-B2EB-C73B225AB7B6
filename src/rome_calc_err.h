@@ -15,6 +15,6 @@ enum {
     ROME_CALC_E_UNKNOWN
 };
 
-extern void rome_calc_error(RomeCalcError **out, int code);
+extern void rome_calc_error(RomeCalcError *out, int code);
 
 #endif /* ROME_CALC_ERR_H */

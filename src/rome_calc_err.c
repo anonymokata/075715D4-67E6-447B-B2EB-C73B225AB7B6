@@ -11,9 +11,9 @@ static RomeCalcError rome_calc_errors[] = {
     { ROME_CALC_E_UNKNOWN }
 };
 
-void rome_calc_error(RomeCalcError **out, int code)
+void rome_calc_error(RomeCalcError *out, int code)
 {
-    if (*out == NULL) {
+    if (out == NULL) {
         return;
     }
 
@@ -24,5 +24,5 @@ void rome_calc_error(RomeCalcError **out, int code)
         }
     }
 
-    memcpy(*out, next, sizeof(RomeCalcError));
+    memcpy(out, next, sizeof(RomeCalcError));
 }

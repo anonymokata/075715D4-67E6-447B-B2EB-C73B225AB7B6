@@ -121,6 +121,49 @@ static int validate_to_arabic_inputs(char const *roman, RomanError *err)
     return 1;
 }
 
+static int to_arabic_validation(char const *position,
+        int *result, int *prev_result,
+        int *repeat_total, int *repeat_digits,
+        RomanError *err)
+{
+    if (*result < 0) {
+        roman_error(err, ROMAN_E_INVALID_NUMERAL);   
+        return 0;
+    } 
+
+    if (*result == *prev_result) {
+        *repeat_total += *result;
+        (*repeat_digits)++;
+    } else {
+        *repeat_total = *result;
+        *repeat_digits = 1;
+    }
+
+    if (*prev_result != 0 && *prev_result < *result) {
+        roman_error(err, ROMAN_E_INVALID_ORDER);
+        return 0;
+    }
+
+    if (*repeat_digits == 4) {
+        roman_error(err, ROMAN_E_QUADS);
+        return 0;
+    }
+
+    if (*repeat_digits >= 2) {
+        char *digit = get_highest_roman_digit(*repeat_total);
+        int same_symbol = (strncmp(position, digit, 1) == 0);
+
+        if (!same_symbol && strlen(digit) < *repeat_digits) {
+            roman_error(err, ROMAN_E_INVALID_REPEAT);
+            return 0;
+        }
+    }
+
+    *prev_result = *result;
+
+    return 1;
+}
+
 int to_arabic(char const *roman, RomanError *err)
 {
     if (!validate_to_arabic_inputs(roman, err)) {
@@ -141,40 +184,14 @@ int to_arabic(char const *roman, RomanError *err)
             i++;
         } else {
             result = get_digit(position, 1);
-            if (result < 0) {
-                roman_error(err, ROMAN_E_INVALID_NUMERAL);   
-                return 0;
-            } 
         }
 
-        if (result == prev_result) {
-            repeat_total += result;
-            repeat_digits++;
-        } else {
-            repeat_total = result;
-            repeat_digits = 1;
-        }
-
-        if (prev_result != 0 && prev_result < result) {
-            roman_error(err, ROMAN_E_INVALID_ORDER);
+        if(!to_arabic_validation(position,
+                    &result, &prev_result,
+                    &repeat_total, &repeat_digits, err)) {
             return 0;
         }
 
-        if (repeat_digits == 4) {
-            roman_error(err, ROMAN_E_QUADS);
-            return 0;
-        }
-
-        if (repeat_digits >= 2) {
-            char *test = get_highest_roman_digit(repeat_total);
-            int same_symbol = strncmp(position, test, 1) == 0;
-            if (!same_symbol && strlen(test) < repeat_digits) {
-                roman_error(err, ROMAN_E_INVALID_REPEAT);
-                return 0;
-            }
-        }
-
-        prev_result = result;
         accumulator += result;
     }
 

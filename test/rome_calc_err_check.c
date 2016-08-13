@@ -4,9 +4,11 @@
 
 #include "../src/rome_calc.h"
 
-#define reset() \
-    memset(&err, 0, sizeof(RomeCalcError)); \
-    memset(buffer, 0, sizeof(buffer));
+static void reset(RomeCalcError *err, char *buffer, int len)
+{
+    memset(err, 0, sizeof(RomeCalcError));
+    memset(buffer, 0, len);
+}
 
 START_TEST (rome_calc_success_err_check)
 {
@@ -16,7 +18,7 @@ START_TEST (rome_calc_success_err_check)
     rome_add("I", "I", buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_SUCCESS, err.code);
 
-    reset();
+    reset(&err, buffer, sizeof(buffer));
     rome_subtract("II", "I", buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_SUCCESS, err.code);
 }
@@ -43,15 +45,15 @@ START_TEST (rome_calc_input_null_err_check)
     rome_add(NULL, "I", buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_INPUT_NULL, err.code);
 
-    reset();
+    reset(&err, buffer, sizeof(buffer));
     rome_add("I", NULL, buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_INPUT_NULL, err.code);
 
-    reset();
+    reset(&err, buffer, sizeof(buffer));
     rome_subtract(NULL, "I", buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_INPUT_NULL, err.code);
 
-    reset();
+    reset(&err, buffer, sizeof(buffer));
     rome_subtract("II", NULL, buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_INPUT_NULL, err.code);
 }
@@ -79,15 +81,15 @@ START_TEST (rome_calc_empty_input_string)
     rome_add("I", "", buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_EMPTY_STRING, err.code);
 
-    reset();
+    reset(&err, buffer, sizeof(buffer));
     rome_add("I", "", buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_EMPTY_STRING, err.code);
 
-    reset();
+    reset(&err, buffer, sizeof(buffer));
     rome_subtract("II", "", buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_EMPTY_STRING, err.code);
 
-    reset();
+    reset(&err, buffer, sizeof(buffer));
     rome_subtract("", "I", buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_EMPTY_STRING, err.code);
 }
@@ -101,15 +103,15 @@ START_TEST (rome_calc_to_arabic_err)
     rome_add("I", "QUACK", buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_TO_ARABIC, err.code);
 
-    reset();
+    reset(&err, buffer, sizeof(buffer));
     rome_add("DUCK", "I", buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_TO_ARABIC, err.code);
 
-    reset();
+    reset(&err, buffer, sizeof(buffer));
     rome_subtract("II", "QUACK", buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_TO_ARABIC, err.code);
 
-    reset();
+    reset(&err, buffer, sizeof(buffer));
     rome_subtract("DUCK", "I", buffer, &err);
     ck_assert_int_eq(ROME_CALC_E_TO_ARABIC, err.code);
 }

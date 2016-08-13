@@ -65,7 +65,7 @@ START_TEST (to_arabic_double_digit_repeat_err)
 {
     RomanError err;
     to_arabic("IVIV", &err);
-    ck_assert_int_eq(ROMAN_E_DOUBLE_REPEAT, err.code);
+    ck_assert_int_eq(ROMAN_E_INVALID_REPEAT, err.code);
 }
 END_TEST
 
@@ -125,8 +125,6 @@ START_TEST (helpful_error_messages)
     ck_assert_str_eq("arabic input must be greater than zero", err.message);
     roman_error(&err, ROMAN_E_ARABIC_GT_3999);
     ck_assert_str_eq("arabic input must be less than 4000", err.message);
-    roman_error(&err, ROMAN_E_DOUBLE_REPEAT);
-    ck_assert_str_eq("two digit roman numbers cannot repeat", err.message);
     roman_error(&err, ROMAN_E_INVALID_NUMERAL);
     ck_assert_str_eq("invalid numeral", err.message);
     roman_error(&err, ROMAN_E_INVALID_ORDER);

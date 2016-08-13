@@ -89,7 +89,8 @@ static int get_digit(char const *in, int one_or_two_chars)
         }
     }
 
-    if (one_or_two_chars == 1 && next->arabic == 0) {
+    int no_digit_found = (one_or_two_chars == 1 && next->arabic == 0);
+    if (no_digit_found) {
         return -1;
     }
 
